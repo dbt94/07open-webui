@@ -13,6 +13,14 @@ docker compose up -d
 Öffne `http://localhost:3000`, lege beim ersten Start ein Konto an → das Modell **`model-chat`**
 steht bereits zur Wahl. Du chattest damit mit dem ganzen System (Gedächtnis + alle Fähigkeiten).
 
+## graph-memory im Web-Chat (Wissensgraph als Tools)
+Der Stack bringt einen **`mcpo`-Dienst** mit, der den Code-Wissensgraphen (`codebase-memory-mcp`,
+Skill `graph-memory`) als **OpenAPI-Tool-Server** exponiert — open-webui spricht kein stdio-MCP direkt.
+- `CODEBASE_DIR` in `.env` auf den zu indizierenden Code zeigen (read-only gemountet).
+- Nach `docker compose up -d`: in open-webui unter **Einstellungen → Tools** den Server
+  `http://mcpo-codebase:8000` registrieren → die Code-Graph-Tools stehen im Chat zur Verfügung
+  (strukturelle Fragen, Call-Chains, ~99% weniger Tokens statt Datei-für-Datei-Lesen).
+
 ## Voraussetzung
 `model-chat` läuft im selben Netz `model-net` (Backend `dbt94/model-chat`), ebenso OmniRoute + Supabase.
 

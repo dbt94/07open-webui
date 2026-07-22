@@ -22,6 +22,19 @@ services:
     networks:
       - model-net
 
+  # MCP→OpenAPI-Bridge: macht den Code-Wissensgraphen (codebase-memory-mcp, graph-memory)
+  # als Tool-Server für open-webui verfügbar. In open-webui unter Einstellungen → Tools den
+  # Server http://mcpo-codebase:8000 registrieren. Indiziert den gemounteten Code (CODEBASE_DIR).
+  mcpo-codebase:
+    build: ./mcpo
+    container_name: model-mcpo-codebase
+    restart: unless-stopped
+    working_dir: /code
+    volumes:
+      - ${CODEBASE_DIR:-../../..}:/code:ro
+    networks:
+      - model-net
+
 volumes:
   open_webui_data:
 
