@@ -1,0 +1,31 @@
+# open-webui als Web-Oberfläche des System-Chats — vorkonfiguriert auf das model-chat-Backend.
+# Einmalig: docker network create model-net   ·   Start: cp .env.example .env && docker compose up -d
+# Öffnet http://localhost:${PORT_HOST:-3000}. Voraussetzung: model-chat läuft im model-net.
+name: model-webui
+
+services:
+  open-webui:
+    # Offizielles Image (turnkey). Für den EIGENEN Fork: hier ein selbst gebautes Image eintragen.
+    image: ${OPENWEBUI_IMAGE:-ghcr.io/open-webui/open-webui:main}
+    container_name: model-webui
+    restart: unless-stopped
+    ports:
+      - "${PORT_HOST:-3000}:8080"
+    environment:
+      # Zeigt open-webui direkt auf das model-chat-Backend (OpenAI-kompatibel).
+      OPENAI_API_BASE_URLS: "http://model-chat:8080/v1"
+      OPENAI_API_KEYS: "${MODEL_CHAT_KEY:-sk-model-chat}"
+      ENABLE_OLLAMA_API: "false"
+      WEBUI_SECRET_KEY: "${WEBUI_SECRET_KEY:?WEBUI_SECRET_KEY in .env setzen}"
+    volumes:
+      - open_webui_data:/app/backend/data
+    networks:
+      - model-net
+
+volumes:
+  open_webui_data:
+
+networks:
+  model-net:
+    external: true
+    name: model-net
