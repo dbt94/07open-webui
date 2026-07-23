@@ -14,8 +14,13 @@ docker compose up -d
 steht bereits zur Wahl. Du chattest damit mit dem ganzen System (Gedächtnis + alle Fähigkeiten).
 
 ## graph-memory im Web-Chat (Wissensgraph als Tools)
-Der Stack bringt einen **`mcpo`-Dienst** mit, der den Code-Wissensgraphen (`codebase-memory-mcp`,
-Skill `graph-memory`) als **OpenAPI-Tool-Server** exponiert — open-webui spricht kein stdio-MCP direkt.
+> **Kanonisch: über das Brain.** Im vollen Self-Host-Stack liefert **`model-chat`** Graph-Memory
+> bereits selbst (Werkzeug `graph`, mcpo-Sidecar) — dann bekommen **Web *und* Telegram** ihn
+> automatisch, **ohne** die Registrierung unten. Diese Sektion ist nur für **Standalone-open-webui**
+> (ohne Brain-Graph) oder wenn du die Graph-Tools zusätzlich direkt in open-webui willst.
+
+Der hier mitgelieferte **`mcpo`-Dienst** exponiert den Code-Wissensgraphen (`codebase-memory-mcp`,
+Skill `graph-memory`) als **OpenAPI-Tool-Server** — open-webui spricht kein stdio-MCP direkt.
 - `CODEBASE_DIR` in `.env` auf den zu indizierenden Code zeigen (read-only gemountet).
 - Nach `docker compose up -d`: in open-webui unter **Einstellungen → Tools** den Server
   `http://mcpo-codebase:8000` registrieren → die Code-Graph-Tools stehen im Chat zur Verfügung
